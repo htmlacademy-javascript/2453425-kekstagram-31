@@ -1,4 +1,4 @@
-const checkStringLength = (string, length) => string.length <= length;
+const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
 const checkPalindrome = (phrase) => {
   const symbols = phrase
@@ -22,3 +22,7 @@ const getNumber = (string) => {
 
   return number;
 };
+
+checkStringLength('проверяемая строка', 20);
+checkPalindrome('топот');
+getNumber('2023 год');
