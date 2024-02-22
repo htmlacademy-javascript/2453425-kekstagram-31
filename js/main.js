@@ -95,4 +95,5 @@ const getPhoto = () => {
 };
 
 const photos = Array.from({length: 25}, getPhoto);
+// eslint-disable-next-line no-console
 console.log(photos);
