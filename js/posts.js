@@ -2,6 +2,8 @@ const miniaturesContainer = document.querySelector('.pictures');
 const miniatureTemplate = document.querySelector('#picture').content;
 
 const renderPostsMiniatures = (posts) => {
+  const miniaturesFragment = document.createDocumentFragment();
+
   posts.map((post) => {
     const miniatureElement = miniatureTemplate.cloneNode(true);
 
@@ -15,8 +17,10 @@ const renderPostsMiniatures = (posts) => {
     const miniatureLikes = miniatureElement.querySelector('.picture__likes');
     miniatureLikes.textContent = post.likes;
 
-    miniaturesContainer.append(miniatureElement);
+    miniaturesFragment.append(miniatureElement);
   });
+
+  miniaturesContainer.append(miniaturesFragment);
 };
 
 export { renderPostsMiniatures };
