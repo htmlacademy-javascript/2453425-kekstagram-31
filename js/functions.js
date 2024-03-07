@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
 const checkPalindrome = (phrase) => {
@@ -41,11 +40,11 @@ const checkMeetingWithinWorkingHours = (startWorkday, endWorkday, startMeeting, 
   return (dateStartMeeting >= dateStartWorkday && dateEndMeeting <= dateEndWorkday);
 };
 
-console.log(checkMeetingWithinWorkingHours('08:00', '17:30', '14:00', 90));
-console.log(checkMeetingWithinWorkingHours('8:0', '10:0', '8:0', 120));
-console.log(checkMeetingWithinWorkingHours('08:00', '14:30', '14:00', 90));
-console.log(checkMeetingWithinWorkingHours('14:00', '17:30', '08:0', 90));
-console.log(checkMeetingWithinWorkingHours('8:00', '17:30', '08:00', 900));
+checkMeetingWithinWorkingHours('08:00', '17:30', '14:00', 90);
+checkMeetingWithinWorkingHours('8:0', '10:0', '8:0', 120);
+checkMeetingWithinWorkingHours('08:00', '14:30', '14:00', 90);
+checkMeetingWithinWorkingHours('14:00', '17:30', '08:0', 90);
+checkMeetingWithinWorkingHours('8:00', '17:30', '08:00', 900);
 
 checkStringLength('проверяемая строка', 20);
 checkPalindrome('топот');
