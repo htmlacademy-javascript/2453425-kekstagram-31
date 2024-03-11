@@ -61,7 +61,7 @@ const prepareBigPhoto = (post) => {
     bigPhotoElement.classList.add('hidden');
 
     document.removeEventListener('keydown', onDocumentKeyDown);
-    loadMoreBtnElement.removeEventListener('click', rederCommentsPart);
+    loadMoreBtnElement.removeEventListener('click', renderCommentsPart);
   }
   bigPictureCancelElement.addEventListener('click', () => {
     closeBigPhoto();
@@ -69,24 +69,24 @@ const prepareBigPhoto = (post) => {
   document.addEventListener('keydown', onDocumentKeyDown);
 
   let renderedCommentsCount = 0;
-  function rederCommentsPart() {
+  function renderCommentsPart() {
     const noRenderComments = post.comments.length - renderedCommentsCount;
-    const coomentsToRender = Math.min(RENDER_COMMENTS_PER_STEP, noRenderComments);
-    const newCommentsPart = createCommentsFragment(post.comments, renderedCommentsCount, renderedCommentsCount + coomentsToRender);
+    const comentsToRender = Math.min(RENDER_COMMENTS_PER_STEP, noRenderComments);
+    const newCommentsPart = createCommentsFragment(post.comments, renderedCommentsCount, renderedCommentsCount + comentsToRender);
     commentsListElement.append(newCommentsPart);
-    renderedCommentsCount += coomentsToRender;
+    renderedCommentsCount += comentsToRender;
 
     if (renderedCommentsCount === post.comments.length) {
       loadMoreBtnElement.classList.add('hidden');
-      loadMoreBtnElement.removeEventListener('click', rederCommentsPart);
+      loadMoreBtnElement.removeEventListener('click', renderCommentsPart);
     } else {
       loadMoreBtnElement.classList.remove('hidden');
-      loadMoreBtnElement.addEventListener('click', rederCommentsPart);
+      loadMoreBtnElement.addEventListener('click', renderCommentsPart);
     }
 
     bigPhotoShownCommentsElement.textContent = renderedCommentsCount;
   }
-  rederCommentsPart();
+  renderCommentsPart();
 };
 
 export const addClickHandler = (miniatureElement, post) => {

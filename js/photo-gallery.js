@@ -5,7 +5,7 @@ const gallery = document.querySelector('.pictures');
 const miniatures = document.createDocumentFragment();
 
 export const renderPhotoGallery = (posts) => {
-  posts.map((post) => {
+  posts.forEach((post) => {
     const miniature = createPostsMiniatures(post);
     addClickHandler(miniature, post);
     miniatures.append(miniature);
