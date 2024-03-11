@@ -10,10 +10,6 @@ const bigPhotoShownCommentsElement = bigPhotoElement.querySelector('.social__com
 const bigPhotoTotalCommentsElement = bigPhotoElement.querySelector('.social__comment-total-count');
 const commentsListElement = bigPhotoElement.querySelector('.social__comments');
 
-const openBigPhoto = () => {
-  bodyElment.classList.add('modal-open');
-  bigPhotoElement.classList.remove('hidden');
-};
 
 const createCommentTemplate = ({avatar, name, message}) => {
   const comment = document.createElement('li');
@@ -42,6 +38,11 @@ const createCommentsFragment = (comments, from, to) => {
   return liTemplate;
 };
 
+const openBigPhoto = () => {
+  bodyElment.classList.add('modal-open');
+  bigPhotoElement.classList.remove('hidden');
+};
+
 const prepareBigPhoto = (post) => {
   bigPhotoImageElement.src = post.url;
   bigPhotoDescriptionElement.textContent = post.description;
@@ -50,12 +51,14 @@ const prepareBigPhoto = (post) => {
   bigPhotoTotalCommentsElement.textContent = post.comments.length;
   commentsListElement.innerHTML = '';
 
+
   const onDocumentKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       closeBigPhoto();
     }
   };
+
   function closeBigPhoto() {
     bodyElment.classList.remove('modal-open');
     bigPhotoElement.classList.add('hidden');
@@ -63,10 +66,13 @@ const prepareBigPhoto = (post) => {
     document.removeEventListener('keydown', onDocumentKeyDown);
     loadMoreBtnElement.removeEventListener('click', renderCommentsPart);
   }
+
   bigPictureCancelElement.addEventListener('click', () => {
     closeBigPhoto();
   });
+
   document.addEventListener('keydown', onDocumentKeyDown);
+
 
   let renderedCommentsCount = 0;
   function renderCommentsPart() {
@@ -86,6 +92,7 @@ const prepareBigPhoto = (post) => {
 
     bigPhotoShownCommentsElement.textContent = renderedCommentsCount;
   }
+
   renderCommentsPart();
 };
 
