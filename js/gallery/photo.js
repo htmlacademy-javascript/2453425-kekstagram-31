@@ -1,7 +1,7 @@
 import { initComments, destroyComments } from './comments.js';
 
 const bigPhotoElement = document.querySelector('.big-picture');
-const bodyElment = document.querySelector('body');
+const bodyElement = document.querySelector('body');
 const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
 const bigPhotoImageElement = bigPhotoElement.querySelector('img');
 const bigPhotoDescriptionElement = bigPhotoElement.querySelector('.social__caption');
@@ -15,7 +15,7 @@ const onDocumentKeyDown = (event) => {
 };
 
 function openBigPhoto() {
-  bodyElment.classList.add('modal-open');
+  bodyElement.classList.add('modal-open');
   bigPhotoElement.classList.remove('hidden');
 
   document.addEventListener('keydown', onDocumentKeyDown);
@@ -23,7 +23,7 @@ function openBigPhoto() {
 }
 
 function closeBigPhoto () {
-  bodyElment.classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
   bigPhotoElement.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeyDown);
