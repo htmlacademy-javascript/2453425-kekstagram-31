@@ -1,7 +1,7 @@
 import { getHashtagChecks } from './hashtag-input.js';
 import { getCommentChecks } from './comment-input.js';
 
-const bodyElment = document.body;
+const bodyElement = document.body;
 const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadInputElement = uploadFormElement.querySelector('#upload-file');
 const uploadModalElement = uploadFormElement.querySelector('.img-upload__overlay');
@@ -46,7 +46,7 @@ const onSubmit = (event) => {
 
 function closeForm() {
   uploadModalElement.classList.add('hidden');
-  bodyElment.classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
   uploadInputElement.value = '';
   hashtagInputElement.value = '';
   commentInputElement.value = '';
@@ -61,7 +61,7 @@ function openForm(event) {
   }
 
   pristine.validate();
-  bodyElment.classList.add('modal-open');
+  bodyElement.classList.add('modal-open');
   uploadModalElement.classList.remove('hidden');
 
   // подставляю выбранную картинку
