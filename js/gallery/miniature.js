@@ -1,7 +1,8 @@
 const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-export const createPostsMiniatures = ({url, description, comments, likes}) => {
+export const createMiniature = ({id, url, description, comments, likes}) => {
   const miniatureElement = miniatureTemplate.cloneNode(true);
+  miniatureElement.dataset.photoId = id;
 
   const miniatureImg = miniatureElement.querySelector('.picture__img');
   miniatureImg.src = url;
