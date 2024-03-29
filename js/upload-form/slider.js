@@ -14,7 +14,8 @@ const show = () => {
   sliderContainerElement.classList.remove('hidden');
 };
 
-const init = ({property, range, step, start, units}) => {
+const init = ({property, range, step, units}) => {
+  const start = range.max;
   effectUnits = units;
   effectProperty = property;
 
@@ -47,7 +48,9 @@ const init = ({property, range, step, start, units}) => {
   show();
 };
 
-const update = ({property, range, step, start, units}) => {
+const update = ({property, range, step, units}) => {
+  const start = range.max;
+
   slider.updateOptions({
     range,
     step,

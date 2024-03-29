@@ -14,7 +14,6 @@ const EffectsFilters = {
       max: 1,
     },
     step: 0.1,
-    start: 0,
     units: '',
   },
   sepia: {
@@ -24,7 +23,6 @@ const EffectsFilters = {
       max: 1,
     },
     step: 0.1,
-    start: 0,
     units: '',
   },
   marvin: {
@@ -34,7 +32,6 @@ const EffectsFilters = {
       max: 100,
     },
     step: 1,
-    start: 0,
     units: '%',
   },
   phobos: {
@@ -44,7 +41,6 @@ const EffectsFilters = {
       max: 3,
     },
     step: 0.1,
-    start: 0,
     units: 'px',
   },
   heat: {
@@ -54,7 +50,6 @@ const EffectsFilters = {
       max: 3,
     },
     step: 0.1,
-    start: 1,
     units: '',
   }
 };
