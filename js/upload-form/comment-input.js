@@ -1,5 +1,7 @@
 const COMMENT_MAX_LENGTH = 140;
 
+const commentInputElement = document.querySelector('.text__description');
+
 const getCommentChecks = () => ({
   checkCommentMaxLength: {
     fn: (value) => value.length <= COMMENT_MAX_LENGTH,
@@ -7,4 +9,8 @@ const getCommentChecks = () => ({
   }
 });
 
-export { getCommentChecks };
+const clear = () => {
+  commentInputElement.value = '';
+};
+
+export { getCommentChecks, clear };

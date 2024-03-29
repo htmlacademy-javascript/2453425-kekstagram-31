@@ -1,6 +1,8 @@
 const HASHTAG_MAX_LENGTH = 20;
 const HASHTAG_MAX_COUNT = 5;
 
+const hashtagInputElement = document.querySelector('.text__hashtags');
+
 const splitAndNormalize = (value) => {
   const hashtags = value
     .toLowerCase()
@@ -76,4 +78,8 @@ const getHashtagChecks = () => ({
   }
 });
 
-export { getHashtagChecks };
+const clear = () => {
+  hashtagInputElement.value = '';
+};
+
+export { getHashtagChecks, clear };

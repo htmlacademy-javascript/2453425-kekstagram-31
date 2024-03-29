@@ -1,5 +1,9 @@
-import { getHashtagChecks } from './hashtag-input.js';
-import { getCommentChecks } from './comment-input.js';
+import { init as initScale, destroy as destroyScale } from './scale.js';
+import { init as initEffects, destroy as destroyEffects } from './effects.js';
+import { init as initValidator, destroy as destroyValidator, validate } from './form-validator.js';
+import { clearUploadPhoto } from './upload-input.js';
+import { clear as clearHashtagInput } from './hashtag-input.js';
+import { clear as clearCommentInput } from './comment-input.js';
 
 const bodyElement = document.body;
 const uploadFormElement = document.querySelector('.img-upload__form');
@@ -8,22 +12,6 @@ const uploadModalElement = uploadFormElement.querySelector('.img-upload__overlay
 const closeFormBtnElementElement = uploadFormElement.querySelector('.img-upload__cancel');
 const commentInputElement = uploadFormElement.querySelector('.text__description');
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
-
-const pristine = new Pristine(uploadFormElement, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
-
-const HashtagChecks = getHashtagChecks();
-const CommentChecks = getCommentChecks();
-
-const addValidators = (element, checks) => {
-  Object.values(checks).forEach((check) => {
-    const {fn, error} = check;
-    pristine.addValidator(element, fn, error, 1, true);
-  });
-};
 
 const onDocumentKeyDown = (event) => {
   if (event.target === hashtagInputElement || event.target === commentInputElement) {
@@ -38,7 +26,7 @@ const onDocumentKeyDown = (event) => {
 
 const onSubmit = (event) => {
   event.preventDefault();
-  const valid = pristine.validate();
+  const valid = validate();
   if (valid) {
     uploadFormElement.submit();
   }
@@ -47,11 +35,16 @@ const onSubmit = (event) => {
 function closeForm() {
   uploadModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  uploadInputElement.value = '';
-  hashtagInputElement.value = '';
-  commentInputElement.value = '';
+
   document.removeEventListener('keydown', onDocumentKeyDown);
   closeFormBtnElementElement.removeEventListener('click', closeForm);
+
+  destroyScale();
+  destroyEffects();
+  destroyValidator();
+  clearUploadPhoto();
+  clearHashtagInput();
+  clearCommentInput();
 }
 
 function openForm(event) {
@@ -60,24 +53,20 @@ function openForm(event) {
     return;
   }
 
-  pristine.validate();
   bodyElement.classList.add('modal-open');
   uploadModalElement.classList.remove('hidden');
 
-  // подставляю выбранную картинку
-  // const uploadImageElement = uploadFormElement.querySelector('.img-upload__preview img');
-  // const fileReader = new FileReader();
-  // fileReader.onload = function() {
-  //   uploadImageElement.src = fileReader.result;
-  // };
-  // fileReader.readAsDataURL(target.files[0]);
+  initScale();
+  initEffects();
+  initValidator();
 
+  uploadFormElement.addEventListener('submit', onSubmit);
   document.addEventListener('keydown', onDocumentKeyDown);
   closeFormBtnElementElement.addEventListener('click', closeForm);
 }
 
-addValidators(hashtagInputElement, HashtagChecks);
-addValidators(commentInputElement, CommentChecks);
+const init = () => {
+  uploadInputElement.addEventListener('input', openForm);
+};
 
-uploadInputElement.addEventListener('input', openForm);
-uploadFormElement.addEventListener('submit', onSubmit);
+export { init };
