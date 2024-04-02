@@ -11,7 +11,7 @@ const disableButton = (text) => {
 };
 const enableButton = (text) => {
   formSubmitButtonElement.disabled = false;
-  formSubmitButtonElement.textContent = text
-}
+  formSubmitButtonElement.textContent = text;
+};
 
 export { SubmitButtonText, disableButton, enableButton };

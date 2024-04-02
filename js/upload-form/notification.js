@@ -22,4 +22,4 @@ const appendNotification = (template, trigger) => {
   bodyElement.addEventListener('keydown', closeNotification);
 };
 
-export { appendNotification }
+export { appendNotification };

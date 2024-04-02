@@ -17,8 +17,8 @@ const ErrorText = {
 
 const load = (route, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })
-  .then((response) =>
-    response.ok? response.json() : Promise.reject(ErrorText[method]));
+    .then((response) =>
+      response.ok ? response.json() : Promise.reject(ErrorText[method]));
 
 const getData = () => load(Route.GET_DATA);
 
