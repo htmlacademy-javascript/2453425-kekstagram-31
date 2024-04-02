@@ -1,9 +1,17 @@
-import { createPost } from './fake-data/post.js';
 import { renderPhotoGallery } from './gallery/gallery.js';
 import { init as initUploadForm } from './upload-form/upload-form.js';
 
-const POSTS_COUNT = 25;
-const posts = Array.from({length: POSTS_COUNT}, createPost);
+import { getData } from './loading-module.js';
+import { showErrorMessage } from './error-message.js';
 
-renderPhotoGallery(posts);
+const bootstrap = async () => {
+  try {
+    const posts = await getData();
+    renderPhotoGallery(posts);
+  } catch (error) {
+    showErrorMessage('Не удалось загрузить данные. Попробуйте еще раз');
+  }
+};
+
+bootstrap();
 initUploadForm();
