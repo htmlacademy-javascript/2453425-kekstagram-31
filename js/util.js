@@ -12,4 +12,23 @@ const getRandomIteger = (a, b) => {
 
 const getRandomArrayElement = (array) => array[getRandomIteger(0, array.length - 1)];
 
-export {makeCounter, getRandomIteger, getRandomArrayElement};
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  shuffled.forEach((item, index, arr) => {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+
+    [item, arr[randomIndex]] = [arr[randomIndex], item];
+  });
+  return shuffled;
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { makeCounter, getRandomIteger, getRandomArrayElement, shuffleArray, debounce };
