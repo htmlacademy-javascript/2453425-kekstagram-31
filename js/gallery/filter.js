@@ -13,7 +13,7 @@ let photos = [];
 const FilterMap = {
   default: () => photos.slice(),
   random: () => shuffleArray(photos).slice(0, RANDOM_PHOTO_COUNT),
-  discussed: () => photos.slice().sort((a, b) => b.likes - a.likes),
+  discussed: () => photos.slice().sort((a, b) => b.comments.length - a.comments.length),
 };
 
 const filter = (filterName) => FilterMap[filterName]();
