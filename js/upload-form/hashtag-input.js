@@ -68,14 +68,6 @@ const getHashtagChecks = () => ({
     },
     error: `Нельзя указать больше ${HASHTAG_MAX_COUNT} хэштегов`
   },
-
-  checkSeparator: {
-    check: (value) => {
-      const wrongHashtagSeparator = / {2,}|[^\S ]/;
-      return !value.match(wrongHashtagSeparator);
-    },
-    error: 'Для разделения хэштегов используйте один пробел'
-  }
 });
 
 const clearHashtag = () => {

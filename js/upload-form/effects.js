@@ -1,7 +1,7 @@
 import { changeSlider, destroySlider } from './slider.js';
 
 const effectsListElement = document.querySelector('.effects__list');
-const activeEffectName = effectsListElement.querySelector('input[type=radio]:checked').value;
+const initialEffect = effectsListElement.querySelector('input[type=radio]#effect-none');
 
 const EffectsFilters = {
   none: {
@@ -57,17 +57,17 @@ const EffectsFilters = {
 const onEffectChange = (event) => {
   const target = event.target;
   const effectName = target.value;
-
   changeSlider(EffectsFilters[effectName]);
 };
 
 const initEffects = () => {
-  changeSlider(EffectsFilters[activeEffectName]);
+  changeSlider(EffectsFilters[initialEffect.value]);
   effectsListElement.addEventListener('input', onEffectChange);
 };
 
 const destroyEffects = () => {
   destroySlider();
+  initialEffect.checked = true;
   effectsListElement.removeEventListener('input', onEffectChange);
 };
 

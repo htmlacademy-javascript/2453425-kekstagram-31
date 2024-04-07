@@ -14,11 +14,12 @@ const getRandomArrayElement = (array) => array[getRandomIteger(0, array.length -
 
 const shuffleArray = (array) => {
   const shuffled = [...array];
-  shuffled.forEach((item, index, arr) => {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
 
-    [item, arr[randomIndex]] = [arr[randomIndex], item];
-  });
+  for (let i = 0; i < shuffled.length; i++) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
   return shuffled;
 };
 
