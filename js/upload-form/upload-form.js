@@ -25,7 +25,7 @@ const onDocumentKeyDown = (event) => {
 
   if (event.key === 'Escape') {
     event.preventDefault();
-    closeForm();
+    closeUploadForm();
   }
 };
 
@@ -35,7 +35,7 @@ const sendFormData = async (formElement) => {
     disableButton(SubmitButtonText.SENDING);
     try {
       await sendData(new FormData(formElement));
-      appendNotification(templateSuccess, () => closeForm());
+      appendNotification(templateSuccess, () => closeUploadForm());
     } catch (error) {
       appendNotification(templateError);
     } finally {
@@ -49,12 +49,12 @@ const onSubmit = (event) => {
   sendFormData(event.target);
 };
 
-function closeForm() {
+function closeUploadForm() {
   uploadModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.removeEventListener('click', closeForm);
+  closeFormBtnElementElement.removeEventListener('click', closeUploadForm);
 
   destroyScale();
   destroyEffects();
@@ -64,7 +64,7 @@ function closeForm() {
   clearComment();
 }
 
-function openForm(event) {
+function openUploadForm(event) {
   const target = event.target;
   if (!target.files.length) {
     return;
@@ -80,11 +80,11 @@ function openForm(event) {
 
   uploadFormElement.addEventListener('submit', onSubmit);
   document.addEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.addEventListener('click', closeForm);
+  closeFormBtnElementElement.addEventListener('click', closeUploadForm);
 }
 
-const init = () => {
-  uploadInputElement.addEventListener('input', openForm);
+const initUploadForm = () => {
+  uploadInputElement.addEventListener('input', openUploadForm);
 };
 
-export { init };
+export { initUploadForm };
