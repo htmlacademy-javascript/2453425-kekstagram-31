@@ -1,9 +1,9 @@
-import { init as initScale, destroy as destroyScale } from './scale.js';
-import { init as initEffects, destroy as destroyEffects } from './effects.js';
-import { init as initValidator, destroy as destroyValidator, validate } from './form-validator.js';
-import { clearUploadPhoto } from './upload-input.js';
-import { clear as clearHashtagInput } from './hashtag-input.js';
-import { clear as clearCommentInput } from './comment-input.js';
+import { initScale, destroyScale } from './scale.js';
+import { initEffects, destroyEffects } from './effects.js';
+import { initValidator, destroyValidator, validate } from './form-validator.js';
+import { clearUploadPhoto, renderUploadPhoto } from './upload-input.js';
+import { clearHashtag } from './hashtag-input.js';
+import { clearComment } from './comment-input.js';
 import { sendData } from '../loading-module.js';
 import { SubmitButtonText, disableButton, enableButton } from './submit-button.js';
 import { appendNotification } from './notification.js';
@@ -60,8 +60,8 @@ function closeForm() {
   destroyEffects();
   destroyValidator();
   clearUploadPhoto();
-  clearHashtagInput();
-  clearCommentInput();
+  clearHashtag();
+  clearComment();
 }
 
 function openForm(event) {
@@ -76,6 +76,7 @@ function openForm(event) {
   initScale();
   initEffects();
   initValidator();
+  renderUploadPhoto();
 
   uploadFormElement.addEventListener('submit', onSubmit);
   document.addEventListener('keydown', onDocumentKeyDown);

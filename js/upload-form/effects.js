@@ -1,4 +1,4 @@
-import { change as changeSlider, destroy as destroySlider } from './slider.js';
+import { changeSlider, destroySlider } from './slider.js';
 
 const effectsListElement = document.querySelector('.effects__list');
 const activeEffectName = effectsListElement.querySelector('input[type=radio]:checked').value;
@@ -54,21 +54,21 @@ const EffectsFilters = {
   }
 };
 
-const onFilterChange = (event) => {
+const onEffectChange = (event) => {
   const target = event.target;
   const effectName = target.value;
 
   changeSlider(EffectsFilters[effectName]);
 };
 
-const init = () => {
+const initEffects = () => {
   changeSlider(EffectsFilters[activeEffectName]);
-  effectsListElement.addEventListener('input', onFilterChange);
+  effectsListElement.addEventListener('input', onEffectChange);
 };
 
-const destroy = () => {
+const destroyEffects = () => {
   destroySlider();
-  effectsListElement.removeEventListener('input', onFilterChange);
+  effectsListElement.removeEventListener('input', onEffectChange);
 };
 
-export { init, destroy };
+export { initEffects, destroyEffects };

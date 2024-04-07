@@ -1,24 +1,27 @@
 import { shuffleArray, debounce } from '../util.js';
 
-const filterContainerElement = document.querySelector('.img-filters');
-const filterItemElements = [...filterContainerElement.querySelectorAll('.img-filters__button')];
-
 const HIDE_CLASS = 'img-filters--inactive';
 const FILTER_ITEM_ACTIVE_CLASS = 'img-filters__button--active';
 const DEBOUNCE_DELAY = 500;
 const RANDOM_PHOTO_COUNT = 10;
 
+const filterContainerElement = document.querySelector('.img-filters');
+const filterItemElements = [...filterContainerElement.querySelectorAll('.img-filters__button')];
+
 let photos = [];
 
+const compareCommentsCount = (firstPhoto, secondPhoto) =>
+  secondPhoto.comments.length - firstPhoto.comments.length;
+
 const FilterMap = {
-  default: () => photos.slice(),
-  random: () => shuffleArray(photos).slice(0, RANDOM_PHOTO_COUNT),
-  discussed: () => photos.slice().sort((a, b) => b.comments.length - a.comments.length),
+  default: (data) => data,
+  random: (data) => shuffleArray(data).slice(0, RANDOM_PHOTO_COUNT),
+  discussed: (data) => data.sort(compareCommentsCount),
 };
 
-const filter = (filterName) => FilterMap[filterName]();
+const filter = (filterName, data) => FilterMap[filterName](data);
 
-const show = () => {
+const showFilter = () => {
   filterContainerElement.classList.remove(HIDE_CLASS);
 };
 
@@ -32,22 +35,27 @@ const changeActiveFilterElement = (filterElement) => {
 };
 
 const changeFilter = (filterName) => {
-  const filteredPhotos = filter(filterName);
-  filterContainerElement
-    .dispatchEvent(new CustomEvent('filterChange', {detail: filteredPhotos}));
+  const filteredPhotos = filter(filterName, [...photos]);
+  const filterChangeEvent = new CustomEvent('filterChange', {detail: filteredPhotos});
+  filterContainerElement.dispatchEvent(filterChangeEvent);
 };
 const debouncedChangeFilter = debounce(changeFilter, DEBOUNCE_DELAY);
 
 const onFilterChange = (event) => {
   const target = event.target;
-  if (filterItemElements.includes(target) && !target.classList.contains(FILTER_ITEM_ACTIVE_CLASS)) {
+  const targetIsFilterItemElement = filterItemElements.includes(target);
+  const targetIsActive = target.classList.contains(FILTER_ITEM_ACTIVE_CLASS);
+
+  if (targetIsFilterItemElement && !targetIsActive) {
+    const filterName = target.id.split('-')[1];
+
     changeActiveFilterElement(target);
-    debouncedChangeFilter(target.id.split('-')[1]);
+    debouncedChangeFilter(filterName);
   }
 };
 
-const init = (data) => {
-  show();
+const initFilter = (data) => {
+  showFilter();
 
   photos = data;
 
@@ -55,4 +63,4 @@ const init = (data) => {
   return filterContainerElement;
 };
 
-export { init };
+export { initFilter };

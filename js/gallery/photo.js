@@ -1,8 +1,11 @@
 import { initComments, destroyComments } from './comments.js';
 
+const BIG_PHOTO_HIDE_CLASS = 'hidden';
+const MODAL_OPEN_CLASS = 'modal-open';
+
+const bodyElement = document.body;
 const bigPhotoElement = document.querySelector('.big-picture');
-const bodyElement = document.querySelector('body');
-const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
+const bigPictureCancelElement = bigPhotoElement.querySelector('.big-picture__cancel');
 const bigPhotoImageElement = bigPhotoElement.querySelector('img');
 const bigPhotoDescriptionElement = bigPhotoElement.querySelector('.social__caption');
 const bigPhotoLikesElement = bigPhotoElement.querySelector('.likes-count');
@@ -13,20 +16,22 @@ const onDocumentKeyDown = (event) => {
     closeBigPhoto();
   }
 };
+const onBigPictureCancelElementClick = () => closeBigPhoto();
 
 function openBigPhoto() {
-  bodyElement.classList.add('modal-open');
-  bigPhotoElement.classList.remove('hidden');
+  bodyElement.classList.add(MODAL_OPEN_CLASS);
+  bigPhotoElement.classList.remove(BIG_PHOTO_HIDE_CLASS);
 
   document.addEventListener('keydown', onDocumentKeyDown);
-  bigPictureCancelElement.addEventListener('click', closeBigPhoto);
+  bigPictureCancelElement.addEventListener('click', onBigPictureCancelElementClick);
 }
 
 function closeBigPhoto () {
-  bodyElement.classList.remove('modal-open');
-  bigPhotoElement.classList.add('hidden');
+  bodyElement.classList.remove(MODAL_OPEN_CLASS);
+  bigPhotoElement.classList.add(BIG_PHOTO_HIDE_CLASS);
 
   document.removeEventListener('keydown', onDocumentKeyDown);
+  bigPictureCancelElement.removeEventListener('click', onBigPictureCancelElementClick);
   destroyComments();
 }
 
@@ -36,8 +41,10 @@ const prepareBigPhoto = ({url, description, likes}) => {
   bigPhotoLikesElement.textContent = likes;
 };
 
-export const renderBigPhoto = (post) => {
+const renderBigPhoto = (post) => {
   prepareBigPhoto(post);
   openBigPhoto();
   initComments(post.comments);
 };
+
+export { renderBigPhoto };

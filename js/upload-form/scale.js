@@ -2,11 +2,11 @@ const MIN_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
 const ZOOM_STEP = 25;
 const START_SCALE_VALUE = 100;
+const uploadedImageElement = document.querySelector('.img-upload__preview > img');
 const zoomContainerElement = document.querySelector('.img-upload__scale');
 const scaleValueElement = zoomContainerElement.querySelector('.scale__control--value');
 const zoomOutBtnElement = zoomContainerElement.querySelector('.scale__control--smaller');
 const zoomInBtnElement = zoomContainerElement.querySelector('.scale__control--bigger');
-const uploadImageElement = document.querySelector('.img-upload__preview > img');
 
 let currentScale = null;
 
@@ -14,7 +14,7 @@ const getScaleCoefficient = () => currentScale / 100;
 
 const scaleImage = () => {
   const scaleCoefficient = getScaleCoefficient();
-  uploadImageElement.style.transform = `scale(${scaleCoefficient})`;
+  uploadedImageElement.style.transform = `scale(${scaleCoefficient})`;
 };
 
 const updateInputValue = () => {
@@ -42,19 +42,18 @@ const onZoom = (event) => {
   }
 };
 
-
-const init = () => {
+const initScale = () => {
   currentScale = START_SCALE_VALUE;
   scaleImage();
   updateInputValue();
   zoomContainerElement.addEventListener('click', onZoom);
 };
 
-const destroy = () => {
+const destroyScale = () => {
   currentScale = START_SCALE_VALUE;
   scaleImage();
   updateInputValue();
   zoomContainerElement.removeEventListener('click', onZoom);
 };
 
-export { init, destroy };
+export { initScale, destroyScale };

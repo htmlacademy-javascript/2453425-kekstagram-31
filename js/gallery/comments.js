@@ -1,18 +1,20 @@
 const RENDER_COMMENTS_PER_STEP = 5;
+const LOAD_MORE_BUTTON_HIDE_CLASS = 'hidden';
+
 const socialElement = document.querySelector('.big-picture__social');
-const shownCommentsElement = socialElement.querySelector('.social__comment-shown-count');
-const totalCommentsElement = socialElement.querySelector('.social__comment-total-count');
+const shownCommentsCountElement = socialElement.querySelector('.social__comment-shown-count');
+const totalCommentsCountElement = socialElement.querySelector('.social__comment-total-count');
 const commentsListElement = socialElement.querySelector('.social__comments');
 const commentElement = socialElement.querySelector('.social__comment');
-const loadMoreBtnElement = socialElement.querySelector('.social__comments-loader');
+const loadMoreButtonElement = socialElement.querySelector('.social__comments-loader');
 
 let comments = [];
 let renderedCommentsCount = 0;
 
 const createCommentTemplate = ({avatar, name, message}) => {
   const commentTemplate = commentElement.cloneNode(true);
-
   const commentPictureElement = commentTemplate.querySelector('.social__picture');
+
   commentPictureElement.src = avatar;
   commentPictureElement.alt = name;
 
@@ -33,35 +35,40 @@ const createCommentsFragment = (commentsPart) => {
   return commentsFragment;
 };
 
-function renderCommentsPart() {
+const renderCommentsPart = () => {
   const commentsPart = comments.slice(renderedCommentsCount, RENDER_COMMENTS_PER_STEP + renderedCommentsCount);
   const commentsFragment = createCommentsFragment(commentsPart);
+  const isloadMoreButtonElementHidden = loadMoreButtonElement.classList.contains(LOAD_MORE_BUTTON_HIDE_CLASS);
 
   commentsListElement.append(commentsFragment);
   renderedCommentsCount += commentsPart.length;
-  shownCommentsElement.textContent = renderedCommentsCount;
+  shownCommentsCountElement.textContent = renderedCommentsCount;
 
-  if (renderedCommentsCount === comments.length) {
-    loadMoreBtnElement.classList.add('hidden');
-    loadMoreBtnElement.removeEventListener('click', renderCommentsPart);
-  } else {
-    loadMoreBtnElement.classList.remove('hidden');
-    loadMoreBtnElement.addEventListener('click', renderCommentsPart);
+  if (renderedCommentsCount < comments.length && isloadMoreButtonElementHidden) {
+    loadMoreButtonElement.classList.remove(LOAD_MORE_BUTTON_HIDE_CLASS);
   }
-}
 
-export const initComments = (postComments) => {
-  comments = postComments;
-  commentsListElement.innerHTML = '';
-
-  totalCommentsElement.textContent = comments.length;
-  renderCommentsPart();
+  if (renderedCommentsCount >= comments.length && !isloadMoreButtonElementHidden) {
+    loadMoreButtonElement.classList.add(LOAD_MORE_BUTTON_HIDE_CLASS);
+  }
 };
 
-export const destroyComments = () => {
+const onLoadMoreButtonClick = () => renderCommentsPart();
+
+const initComments = (postComments) => {
+  comments = postComments;
+  commentsListElement.innerHTML = '';
+  totalCommentsCountElement.textContent = comments.length;
+
+  renderCommentsPart();
+  loadMoreButtonElement.addEventListener('click', onLoadMoreButtonClick);
+};
+
+const destroyComments = () => {
   comments = [];
   renderedCommentsCount = 0;
 
-  commentsListElement.innerHTML = '';
-  loadMoreBtnElement.removeEventListener('click', renderCommentsPart);
+  loadMoreButtonElement.removeEventListener('click', onLoadMoreButtonClick);
 };
+
+export { initComments, destroyComments };

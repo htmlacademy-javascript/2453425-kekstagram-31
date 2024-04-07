@@ -4,13 +4,13 @@ const commentInputElement = document.querySelector('.text__description');
 
 const getCommentChecks = () => ({
   checkCommentMaxLength: {
-    fn: (value) => value.length <= COMMENT_MAX_LENGTH,
+    check: (value) => value.length <= COMMENT_MAX_LENGTH,
     error: 'Длина комментария не может составлять больше 140 символов'
   }
 });
 
-const clear = () => {
+const clearComment = () => {
   commentInputElement.value = '';
 };
 
-export { getCommentChecks, clear };
+export { getCommentChecks, clearComment };

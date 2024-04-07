@@ -31,4 +31,13 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { makeCounter, getRandomIteger, getRandomArrayElement, shuffleArray, debounce };
+const findArrayItemById = (array, id) => array.find((item) => item.id === id);
+
+export {
+  makeCounter,
+  getRandomIteger,
+  getRandomArrayElement,
+  shuffleArray,
+  debounce,
+  findArrayItemById
+};
