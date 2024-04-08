@@ -13,7 +13,6 @@ const renderUploadPhoto = async () => {
     const url = URL.createObjectURL(file);
     uploadImageElement.src = url;
     previewsElements.forEach((el) => {
-      // console.log(url);
       el.style.backgroundImage = `url(${url})`;
     });
   }

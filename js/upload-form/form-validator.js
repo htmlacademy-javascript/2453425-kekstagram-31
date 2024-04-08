@@ -11,8 +11,8 @@ const uploadFormElement = document.querySelector('.img-upload__form');
 const commentInputElement = uploadFormElement.querySelector('.text__description');
 const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
 
-const HashtagChecks = getHashtagChecks();
-const CommentChecks = getCommentChecks();
+const hashtagChecks = getHashtagChecks();
+const commentChecks = getCommentChecks();
 
 let pristine = null;
 
@@ -26,8 +26,8 @@ const addValidators = (element, validators) => {
 const initValidator = () => {
   pristine = new Pristine(uploadFormElement, PRISTINE_SETTINGS);
 
-  addValidators(hashtagInputElement, HashtagChecks);
-  addValidators(commentInputElement, CommentChecks);
+  addValidators(hashtagInputElement, hashtagChecks);
+  addValidators(commentInputElement, commentChecks);
 };
 
 const validate = () => pristine?.validate();
