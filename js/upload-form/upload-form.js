@@ -49,30 +49,39 @@ const onSubmit = (event) => {
   sendFormData(event.target);
 };
 
-function closeUploadForm() {
+const onFileInput = (event) => {
+  const target = event.target;
+  if (target.files.length) {
+    openUploadForm();
+  }
+};
+const onCloseButtonClick = () =>{
+  closeUploadForm();
+};
+const showUploadForm = () => {
+  bodyElement.classList.add('modal-open');
+  uploadModalElement.classList.remove('hidden');
+};
+const hideUploadForm = () => {
   uploadModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+};
 
-  document.removeEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.removeEventListener('click', closeUploadForm);
-
+function closeUploadForm() {
+  hideUploadForm();
   destroyScale();
   destroyEffects();
   destroyValidator();
   clearUploadPhoto();
   clearHashtag();
   clearComment();
+
+  document.removeEventListener('keydown', onDocumentKeyDown);
+  closeFormBtnElementElement.removeEventListener('click', onCloseButtonClick);
 }
 
-function openUploadForm(event) {
-  const target = event.target;
-  if (!target.files.length) {
-    return;
-  }
-
-  bodyElement.classList.add('modal-open');
-  uploadModalElement.classList.remove('hidden');
-
+function openUploadForm() {
+  showUploadForm();
   initScale();
   initEffects();
   initValidator();
@@ -80,11 +89,11 @@ function openUploadForm(event) {
 
   uploadFormElement.addEventListener('submit', onSubmit);
   document.addEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.addEventListener('click', closeUploadForm);
+  closeFormBtnElementElement.addEventListener('click', onCloseButtonClick);
 }
 
 const initUploadForm = () => {
-  uploadInputElement.addEventListener('input', openUploadForm);
+  uploadInputElement.addEventListener('input', onFileInput);
 };
 
 export { initUploadForm };

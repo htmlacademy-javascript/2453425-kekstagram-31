@@ -1,16 +1,30 @@
 const bodyElement = document.body;
 
-const closeNotification = (event) => {
+const getExistElement = () => document.querySelector('.success') || document.querySelector('.error');
+
+const onClickOutsideOrCloseButton = (event) => {
   event.stopPropagation();
-  const ExistElement = document.querySelector('.success') || document.querySelector('.error');
+  const ExistElement = getExistElement();
   const closeButton = ExistElement.querySelector('button');
 
-  if (event.target === ExistElement || event.target === closeButton || event.key === 'Escape') {
-    ExistElement.remove();
-    bodyElement.removeEventListener('click', closeNotification);
-    bodyElement.removeEventListener('keydown', closeNotification);
+  if (event.target === ExistElement || event.target === closeButton) {
+    closeNotification(ExistElement);
   }
 };
+const onBodyKeyDown = (event) => {
+  event.stopPropagation();
+  const ExistElement = getExistElement();
+
+  if (event.key === 'Escape') {
+    closeNotification(ExistElement);
+  }
+};
+
+function closeNotification(notificationElement) {
+  notificationElement.remove();
+  bodyElement.removeEventListener('click', onClickOutsideOrCloseButton);
+  bodyElement.removeEventListener('keydown', onBodyKeyDown);
+}
 
 const appendNotification = (template, trigger) => {
   trigger?.();
@@ -18,8 +32,8 @@ const appendNotification = (template, trigger) => {
   const notificationElement = template.cloneNode(true);
   bodyElement.append(notificationElement);
 
-  bodyElement.addEventListener('click', closeNotification);
-  bodyElement.addEventListener('keydown', closeNotification);
+  bodyElement.addEventListener('click', onClickOutsideOrCloseButton);
+  bodyElement.addEventListener('keydown', onBodyKeyDown);
 };
 
 export { appendNotification };
