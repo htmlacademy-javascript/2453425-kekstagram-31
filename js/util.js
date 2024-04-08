@@ -1,12 +1,12 @@
-const shuffleArray = (array) => {
-  const shuffled = [...array];
+const shuffleArray = (data) => {
+  const shuffledData = [...data];
 
-  for (let i = 0; i < shuffled.length; i++) {
+  for (let i = 0; i < shuffledData.length; i++) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
   }
 
-  return shuffled;
+  return shuffledData;
 };
 
 const debounce = (callback, timeoutDelay) => {
@@ -18,7 +18,7 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-const findArrayItemById = (array, id) => array.find((item) => item.id === id);
+const findArrayItemById = (data, id) => data.find((item) => item.id === id);
 
 export {
   shuffleArray,

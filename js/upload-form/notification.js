@@ -2,7 +2,7 @@ const bodyElement = document.body;
 
 const getExistElement = () => document.querySelector('.success') || document.querySelector('.error');
 
-const onClickOutsideOrCloseButton = (event) => {
+const onNotificationOrCloseButtonClick = (event) => {
   event.stopPropagation();
   const ExistElement = getExistElement();
   const closeButton = ExistElement.querySelector('button');
@@ -22,7 +22,7 @@ const onBodyKeyDown = (event) => {
 
 function closeNotification(notificationElement) {
   notificationElement.remove();
-  bodyElement.removeEventListener('click', onClickOutsideOrCloseButton);
+  bodyElement.removeEventListener('click', onNotificationOrCloseButtonClick);
   bodyElement.removeEventListener('keydown', onBodyKeyDown);
 }
 
@@ -32,7 +32,7 @@ const appendNotification = (template, trigger) => {
   const notificationElement = template.cloneNode(true);
   bodyElement.append(notificationElement);
 
-  bodyElement.addEventListener('click', onClickOutsideOrCloseButton);
+  bodyElement.addEventListener('click', onNotificationOrCloseButtonClick);
   bodyElement.addEventListener('keydown', onBodyKeyDown);
 };
 

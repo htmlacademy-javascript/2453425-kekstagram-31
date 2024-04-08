@@ -14,12 +14,16 @@ const compareCommentsCount = (firstPhoto, secondPhoto) =>
   secondPhoto.comments.length - firstPhoto.comments.length;
 
 const FilterMap = {
-  default: (data) => data,
-  random: (data) => shuffleArray(data).slice(0, RANDOM_PHOTO_COUNT),
-  discussed: (data) => data.sort(compareCommentsCount),
+  getDefault: (data) => data,
+  getRandom: (data) => shuffleArray(data).slice(0, RANDOM_PHOTO_COUNT),
+  getDiscussed: (data) => data.sort(compareCommentsCount),
 };
 
-const filter = (filterName, data) => FilterMap[filterName](data);
+const filter = (filterName, data) => {
+  const filteringFunctionName = `get${filterName[0].toUpperCase()}${filterName.slice(1)}`;
+  const filteredPhotos = FilterMap[filteringFunctionName](data);
+  return filteredPhotos;
+};
 
 const showFilter = () => {
   filterContainerElement.classList.remove(HIDE_CLASS);
@@ -41,7 +45,7 @@ const changeFilter = (filterName) => {
 };
 const debouncedChangeFilter = debounce(changeFilter, DEBOUNCE_DELAY);
 
-const onFilterChange = (event) => {
+const onFilterItemClick = (event) => {
   const target = event.target;
   const targetIsFilterItemElement = filterItemElements.includes(target);
   const targetIsActive = target.classList.contains(FILTER_ITEM_ACTIVE_CLASS);
@@ -59,7 +63,7 @@ const initFilter = (data) => {
 
   photos = data;
 
-  filterContainerElement.addEventListener('click', onFilterChange);
+  filterContainerElement.addEventListener('click', onFilterItemClick);
   return filterContainerElement;
 };
 

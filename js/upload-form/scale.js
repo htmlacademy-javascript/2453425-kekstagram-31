@@ -32,7 +32,7 @@ const zoomIn = () => {
   updateInputValue();
 };
 
-const onZoom = (event) => {
+const onZoomButtonClick = (event) => {
   const target = event.target;
   if (target === zoomOutBtnElement && currentScale > MIN_SCALE_VALUE) {
     zoomOut();
@@ -46,14 +46,14 @@ const initScale = () => {
   currentScale = START_SCALE_VALUE;
   scaleImage();
   updateInputValue();
-  zoomContainerElement.addEventListener('click', onZoom);
+  zoomContainerElement.addEventListener('click', onZoomButtonClick);
 };
 
 const destroyScale = () => {
   currentScale = START_SCALE_VALUE;
   scaleImage();
   updateInputValue();
-  zoomContainerElement.removeEventListener('click', onZoom);
+  zoomContainerElement.removeEventListener('click', onZoomButtonClick);
 };
 
 export { initScale, destroyScale };

@@ -1,5 +1,7 @@
 const HASHTAG_MAX_LENGTH = 20;
 const HASHTAG_MAX_COUNT = 5;
+const STARTS_WITH_SPACE = /^\s/;
+const HASHTAG = /^#[a-zа-яё0-9]+$/i;
 
 const hashtagInputElement = document.querySelector('.text__hashtags');
 
@@ -15,8 +17,7 @@ const splitAndNormalize = (value) => {
 const getHashtagChecks = () => ({
   checkSharpFirst: {
     check: (value) => {
-      const startsWithSpace = /^\s/;
-      const firstSharp = !value.match(startsWithSpace);
+      const firstSharp = !value.match(STARTS_WITH_SPACE);
       const hashtags = splitAndNormalize(value);
       const nextSharp = hashtags.every((string) => string[0] === '#');
       return firstSharp && nextSharp;
@@ -35,9 +36,8 @@ const getHashtagChecks = () => ({
 
   validateHashTag: {
     check: (value) => {
-      const hashtag = /^#[a-zа-яё0-9]+$/i;
       const hashtags = splitAndNormalize(value);
-      const onlyLettersAndNumbers = hashtags.every((string) => hashtag.test(string));
+      const onlyLettersAndNumbers = hashtags.every((string) => HASHTAG.test(string));
       return onlyLettersAndNumbers;
     },
     error: 'Хэштег должен состоять из букв и/или чисел'
