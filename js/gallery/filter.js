@@ -40,7 +40,7 @@ const changeActiveFilterElement = (filterElement) => {
 
 const changeFilter = (filterName) => {
   const filteredPhotos = filter(filterName, [...photos]);
-  const filterChangeEvent = new CustomEvent('filterChange', {detail: filteredPhotos});
+  const filterChangeEvent = new CustomEvent('changeCondition', {detail: filteredPhotos});
   filterContainerElement.dispatchEvent(filterChangeEvent);
 };
 const debouncedChangeFilter = debounce(changeFilter, DEBOUNCE_DELAY);
