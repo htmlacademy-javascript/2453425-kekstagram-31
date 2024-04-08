@@ -1,6 +1,7 @@
+import { findArrayItemById } from '../util.js';
 import { createMiniature } from './miniature.js';
 import { renderBigPhoto } from './photo.js';
-import { init as initFilter } from './filter.js';
+import { initFilter } from './filter.js';
 
 const galleryElement = document.querySelector('.pictures');
 
@@ -13,11 +14,11 @@ const removeMiniatures = () => {
 };
 
 const renderMiniatures = (posts) => {
+  const miniaturesFragment = document.createDocumentFragment();
+
   if (renderedPhotos) {
     removeMiniatures();
   }
-
-  const miniaturesFragment = document.createDocumentFragment();
 
   posts.forEach((photo) => {
     const miniature = createMiniature(photo);
@@ -28,20 +29,30 @@ const renderMiniatures = (posts) => {
   galleryElement.append(miniaturesFragment);
 };
 
-export const renderPhotoGallery = (posts) => {
+const onFilterChange = (event) => renderMiniatures(event.detail);
+
+const onMiniatureClick = (event) => {
+  const target = event.target;
+  const miniatureElement = target.closest('.picture');
+
+  if (miniatureElement) {
+    event.preventDefault();
+
+    const photoId = +miniatureElement.dataset.photoId;
+    const photo = findArrayItemById(photos, photoId);
+
+    renderBigPhoto(photo);
+  }
+};
+
+const renderPhotoGallery = (posts) => {
   photos = [...posts];
+  const filter = initFilter(photos);
 
   renderMiniatures(photos);
 
-  const filter = initFilter(photos);
-  filter.addEventListener('filterChange', (event) => renderMiniatures(event.detail));
-
-  galleryElement.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.closest('.picture')) {
-      event.preventDefault();
-      const photo = photos.find((item) => item.id === +target.closest('.picture').dataset.photoId);
-      renderBigPhoto(photo);
-    }
-  });
+  filter.addEventListener('filterChange', onFilterChange);
+  galleryElement.addEventListener('click', onMiniatureClick);
 };
+
+export { renderPhotoGallery };

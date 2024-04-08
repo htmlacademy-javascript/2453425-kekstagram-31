@@ -14,9 +14,9 @@ const splitAndNormalize = (value) => {
 
 const getHashtagChecks = () => ({
   checkSharpFirst: {
-    fn: (value) => {
-      const startsWithSpaceRegExp = /^\s/;
-      const firstSharp = !value.match(startsWithSpaceRegExp);
+    check: (value) => {
+      const startsWithSpace = /^\s/;
+      const firstSharp = !value.match(startsWithSpace);
       const hashtags = splitAndNormalize(value);
       const nextSharp = hashtags.every((string) => string[0] === '#');
       return firstSharp && nextSharp;
@@ -25,7 +25,7 @@ const getHashtagChecks = () => ({
   },
 
   checkOnlySharp: {
-    fn: (value) => {
+    check: (value) => {
       const hashtags = splitAndNormalize(value);
       const notOnlySharp = hashtags.every((string) => string[0] === '#' && string.length > 1);
       return notOnlySharp;
@@ -34,17 +34,17 @@ const getHashtagChecks = () => ({
   },
 
   validateHashTag: {
-    fn: (value) => {
-      const hashtagRegExp = /^#[a-zа-яё0-9]+$/i;
+    check: (value) => {
+      const hashtag = /^#[a-zа-яё0-9]+$/i;
       const hashtags = splitAndNormalize(value);
-      const onlyLettersAndNumbers = hashtags.every((string) => hashtagRegExp.test(string));
+      const onlyLettersAndNumbers = hashtags.every((string) => hashtag.test(string));
       return onlyLettersAndNumbers;
     },
     error: 'Хэштег должен состоять из букв и/или чисел'
   },
 
   checkMaxLength: {
-    fn: (value) => {
+    check: (value) => {
       const hashtags = splitAndNormalize(value);
       const withinMaxLength = hashtags.every((string) => string.length <= HASHTAG_MAX_LENGTH);
       return withinMaxLength;
@@ -53,7 +53,7 @@ const getHashtagChecks = () => ({
   },
 
   checkDouble: {
-    fn: (value) => {
+    check: (value) => {
       const hashtags = splitAndNormalize(value);
       const uniqueHashtags = new Set(hashtags);
       return hashtags.length === uniqueHashtags.size;
@@ -62,24 +62,16 @@ const getHashtagChecks = () => ({
   },
 
   checkLength: {
-    fn: (value) => {
+    check: (value) => {
       const hashtags = splitAndNormalize(value);
       return hashtags.length <= HASHTAG_MAX_COUNT;
     },
     error: `Нельзя указать больше ${HASHTAG_MAX_COUNT} хэштегов`
   },
-
-  checkSeparator: {
-    fn: (value) => {
-      const wrongHashtagSeparatorRegExp = / {2,}|[^\S ]/;
-      return !value.match(wrongHashtagSeparatorRegExp);
-    },
-    error: 'Для разделения хэштегов используйте один пробел'
-  }
 });
 
-const clear = () => {
+const clearHashtag = () => {
   hashtagInputElement.value = '';
 };
 
-export { getHashtagChecks, clear };
+export { getHashtagChecks, clearHashtag };

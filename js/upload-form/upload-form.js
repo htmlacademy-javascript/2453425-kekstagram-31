@@ -1,9 +1,9 @@
-import { init as initScale, destroy as destroyScale } from './scale.js';
-import { init as initEffects, destroy as destroyEffects } from './effects.js';
-import { init as initValidator, destroy as destroyValidator, validate } from './form-validator.js';
-import { clearUploadPhoto } from './upload-input.js';
-import { clear as clearHashtagInput } from './hashtag-input.js';
-import { clear as clearCommentInput } from './comment-input.js';
+import { initScale, destroyScale } from './scale.js';
+import { initEffects, destroyEffects } from './effects.js';
+import { initValidator, destroyValidator, validate } from './form-validator.js';
+import { clearUploadPhoto, renderUploadPhoto } from './upload-input.js';
+import { clearHashtag } from './hashtag-input.js';
+import { clearComment } from './comment-input.js';
 import { sendData } from '../loading-module.js';
 import { SubmitButtonText, disableButton, enableButton } from './submit-button.js';
 import { appendNotification } from './notification.js';
@@ -25,7 +25,7 @@ const onDocumentKeyDown = (event) => {
 
   if (event.key === 'Escape') {
     event.preventDefault();
-    closeForm();
+    closeUploadForm();
   }
 };
 
@@ -35,7 +35,7 @@ const sendFormData = async (formElement) => {
     disableButton(SubmitButtonText.SENDING);
     try {
       await sendData(new FormData(formElement));
-      appendNotification(templateSuccess, () => closeForm());
+      appendNotification(templateSuccess, () => closeUploadForm());
     } catch (error) {
       appendNotification(templateError);
     } finally {
@@ -49,22 +49,22 @@ const onSubmit = (event) => {
   sendFormData(event.target);
 };
 
-function closeForm() {
+function closeUploadForm() {
   uploadModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.removeEventListener('click', closeForm);
+  closeFormBtnElementElement.removeEventListener('click', closeUploadForm);
 
   destroyScale();
   destroyEffects();
   destroyValidator();
   clearUploadPhoto();
-  clearHashtagInput();
-  clearCommentInput();
+  clearHashtag();
+  clearComment();
 }
 
-function openForm(event) {
+function openUploadForm(event) {
   const target = event.target;
   if (!target.files.length) {
     return;
@@ -76,14 +76,15 @@ function openForm(event) {
   initScale();
   initEffects();
   initValidator();
+  renderUploadPhoto();
 
   uploadFormElement.addEventListener('submit', onSubmit);
   document.addEventListener('keydown', onDocumentKeyDown);
-  closeFormBtnElementElement.addEventListener('click', closeForm);
+  closeFormBtnElementElement.addEventListener('click', closeUploadForm);
 }
 
-const init = () => {
-  uploadInputElement.addEventListener('input', openForm);
+const initUploadForm = () => {
+  uploadInputElement.addEventListener('input', openUploadForm);
 };
 
-export { init };
+export { initUploadForm };

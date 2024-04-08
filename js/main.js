@@ -1,5 +1,5 @@
 import { renderPhotoGallery } from './gallery/gallery.js';
-import { init as initUploadForm } from './upload-form/upload-form.js';
+import { initUploadForm } from './upload-form/upload-form.js';
 
 import { getData } from './loading-module.js';
 import { showErrorMessage } from './error-message.js';
