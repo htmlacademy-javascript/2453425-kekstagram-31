@@ -3,7 +3,7 @@ import { changeSlider, destroySlider } from './slider.js';
 const effectsListElement = document.querySelector('.effects__list');
 const initialEffect = effectsListElement.querySelector('input[type=radio]#effect-none');
 
-const EffectsFilters = {
+const EFFECTS_FILTERS = {
   none: {
     property: 'none'
   },
@@ -54,21 +54,21 @@ const EffectsFilters = {
   }
 };
 
-const onEffectChange = (event) => {
+const onEffectListItemClick = (event) => {
   const target = event.target;
   const effectName = target.value;
-  changeSlider(EffectsFilters[effectName]);
+  changeSlider(EFFECTS_FILTERS[effectName]);
 };
 
 const initEffects = () => {
-  changeSlider(EffectsFilters[initialEffect.value]);
-  effectsListElement.addEventListener('input', onEffectChange);
+  changeSlider(EFFECTS_FILTERS[initialEffect.value]);
+  effectsListElement.addEventListener('input', onEffectListItemClick);
 };
 
 const destroyEffects = () => {
   destroySlider();
   initialEffect.checked = true;
-  effectsListElement.removeEventListener('input', onEffectChange);
+  effectsListElement.removeEventListener('input', onEffectListItemClick);
 };
 
 export { initEffects, destroyEffects };

@@ -29,7 +29,7 @@ const renderMiniatures = (posts) => {
   galleryElement.append(miniaturesFragment);
 };
 
-const onFilterChange = (event) => renderMiniatures(event.detail);
+const onFilterChangeCondition = (event) => renderMiniatures(event.detail);
 
 const onMiniatureClick = (event) => {
   const target = event.target;
@@ -51,7 +51,7 @@ const renderPhotoGallery = (posts) => {
 
   renderMiniatures(photos);
 
-  filter.addEventListener('filterChange', onFilterChange);
+  filter.addEventListener('changeCondition', onFilterChangeCondition);
   galleryElement.addEventListener('click', onMiniatureClick);
 };
 
